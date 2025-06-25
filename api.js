@@ -6,7 +6,17 @@ api.use(cors());
 api.use(express.json());
 
 api.get('/get-gps', async (req, res) => {
-  res.json((await fetch("http://217.154.87.99:3000/get-gps")).json());
+  const res = await fetch("http://217.154.87.99:3000/get-gps")
+  let buses = await res.json() || []
+
+  if (Array.isArray(buses) == false) {
+    buses = [
+      buses
+    ]
+  }
+
+  console.log(buses)
+  res.json(buses)
 });
 
 api.listen(3000, () => {
